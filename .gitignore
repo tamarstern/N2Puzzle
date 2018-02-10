@@ -1,0 +1,7 @@
+# Intellij
+.idea/
+*.iml
+*.iws
+
+#ignore out dir
+out/
