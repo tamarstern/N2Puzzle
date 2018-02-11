@@ -30,7 +30,9 @@ public class GameBoard {
     }
 
     private void initBoardBlankPosition(int NSize) {
-        blankPosition = new GameBoardPosition(NSize - 1, NSize - 1);
+        int blankPositionInitialIndex = NSize - 1;
+        blankPosition = new GameBoardPosition(blankPositionInitialIndex,
+                blankPositionInitialIndex);
         setPositionValue(blankPosition, 0);
     }
 
@@ -74,16 +76,16 @@ public class GameBoard {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null) {
+    public boolean equals(Object obj) {
+        if (null == obj) {
             return false;
         }
-        if (o == this) {
+        if (this == obj) {
             return true;
         }
-        if (o instanceof GameBoard) {
+        if (obj instanceof GameBoard) {
             for (GameBoardPosition p : this.allGameBoardPositions) {
-                if (this.getPositionValue(p) != ((GameBoard) o).getPositionValue(p)) {
+                if (this.getPositionValue(p) != ((GameBoard) obj).getPositionValue(p)) {
                     return false;
                 }
             }
@@ -106,8 +108,10 @@ public class GameBoard {
         ArrayList<GameBoardPosition> validMoves = new ArrayList<>();
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                GameBoardPosition boardPosition = new GameBoardPosition(this.blankPosition.getXIndex() + i,
-                        this.blankPosition.getYIndex() + j);
+                int xIndex = this.blankPosition.getXIndex() + i;
+                int yIndex = this.blankPosition.getYIndex() + j;
+                GameBoardPosition boardPosition = new GameBoardPosition(xIndex,
+                        yIndex);
                 if (isValidMove(boardPosition)) {
                     validMoves.add(boardPosition);
                 }
