@@ -29,7 +29,7 @@ public class GameBoardSolver {
     }
 
     public static boolean canBeSolved(GameBoard start) {
-        return solveBoard(start) != null;
+        return solveBoardWithAStarAlgorithm(start) != null;
     }
 
     public static List<GameBoard> getAllNeighborsBoards(GameBoard start) {
@@ -47,8 +47,8 @@ public class GameBoardSolver {
         return GameBoardSolver.heuristicCostEstimate(board) == 0;
     }
 
-
-    private static List<GameBoard> solveBoard(GameBoard start) {
+    //A* algorithm - find solution according to the function f(x) = g(x) + h(x), while h is the heuristic cost
+    private static List<GameBoard> solveBoardWithAStarAlgorithm(GameBoard start) {
         HashMap<GameBoard, Integer> gScoreMap = new HashMap<>();
         final HashMap<GameBoard, Integer> fScoreMap = new HashMap<>();
         Comparator<GameBoard> comparator = Comparator.comparingInt(fScoreMap::get);
@@ -65,16 +65,23 @@ public class GameBoardSolver {
             }
             for (GameBoard neighborBoard : getAllNeighborsBoards(current)) {
                 if (!cameFromMap.containsKey(neighborBoard)) {
-                    cameFromMap.put(neighborBoard, current);
-                    Integer tentativeGScore = gScoreMap.get(current) + 1;
-                    gScoreMap.put(neighborBoard, tentativeGScore);
-                    int estimateHeuristicScore = heuristicCostEstimate(neighborBoard);
-                    fScoreMap.put(neighborBoard, tentativeGScore + estimateHeuristicScore);
-                    openSet.add(neighborBoard);
+                    constructBestPath(gScoreMap, fScoreMap, openSet, cameFromMap, current, neighborBoard);
                 }
             }
         }
         return null;
+    }
+
+    private static void constructBestPath(HashMap<GameBoard, Integer> gScoreMap, HashMap<GameBoard, Integer> fScoreMap,
+                                          PriorityQueue<GameBoard> openSet, HashMap<GameBoard, GameBoard> cameFromMap,
+                                          GameBoard current, GameBoard neighborBoard) {
+        cameFromMap.put(neighborBoard, current);
+        Integer tentativeGScore = gScoreMap.get(current) + 1;
+        gScoreMap.put(neighborBoard, tentativeGScore);
+        int estimateHeuristicScore = heuristicCostEstimate(neighborBoard);
+        int fScoreValue = tentativeGScore + estimateHeuristicScore;
+        fScoreMap.put(neighborBoard, fScoreValue);
+        openSet.add(neighborBoard);
     }
 
     private static List<GameBoard> reconstructPathAndReturn(HashMap<GameBoard, GameBoard> predecessor, GameBoard candidate) {

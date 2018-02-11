@@ -1,5 +1,8 @@
 package Model;
 
+import Exceptions.IllegalXIndexValue;
+import Exceptions.IllegalYIndexValue;
+
 import java.util.Objects;
 
 public class GameBoardPosition {
@@ -7,8 +10,11 @@ public class GameBoardPosition {
     private int yIndex;
 
     public GameBoardPosition(int xIndex, int yIndex) {
-        if(xIndex < -1 || yIndex < -1) {
-            throw new RuntimeException("Invalid values");
+        if(xIndex < -1) {
+            throw new IllegalXIndexValue("Invalid x value");
+        }
+        if(yIndex < -1) {
+            throw new IllegalYIndexValue("Invalid y value");
         }
         this.xIndex =xIndex;
         this.yIndex =yIndex;

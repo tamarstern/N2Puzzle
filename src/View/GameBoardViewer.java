@@ -7,47 +7,60 @@ import java.util.List;
 
 public class GameBoardViewer {
 
-    public static void showMoves(GameBoard board, List<GameBoardPosition> gameBoardPositions) {
+    private static final String NEW_LINE = "\n";
+
+    private static final String BOARD_SEPARATOR = "=================";
+
+    private static final String ONE_SPACE = " ";
+
+    private static final String TWO_SPACE = "  ";
+
+    private static final String BOARD_POSITION_SEPARATOR = "|";
+
+    public static String generateMovesDisplay(GameBoard board, List<GameBoardPosition> gameBoardPositions) {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("| ");
+        buffer.append(BOARD_POSITION_SEPARATOR);
+        buffer.append(ONE_SPACE);
         for (GameBoardPosition pos : gameBoardPositions) {
-            printPositionValue(board, buffer, pos);
+            generatePositionValueDisplay(board, buffer, pos);
         }
-        buffer.append("\n");
-        String toPrint = buffer.toString();
-        System.out.print(toPrint);
+        buffer.append(NEW_LINE);
+        String moveDisplay = buffer.toString();
+        return moveDisplay;
     }
 
-    public static void showBoard(GameBoard board) {
+    public static String generateBoardDisplay(GameBoard board) {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("=================\n");
+        buffer.append(BOARD_SEPARATOR);
+        buffer.append(NEW_LINE);
         int NSize = board.getNSize();
         for (int i = 0; i < NSize; i++) {
-            buffer.append("| ");
+            buffer.append(BOARD_POSITION_SEPARATOR);
+            buffer.append(ONE_SPACE);
             for (int j = 0; j < NSize; j++) {
                 GameBoardPosition currentPos = new GameBoardPosition(i, j);
-                printPositionValue(board, buffer, currentPos);
+                generatePositionValueDisplay(board, buffer, currentPos);
             }
-            buffer.append("\n");
+            buffer.append(NEW_LINE);
         }
-        buffer.append("=================\n\n");
-        String toPrint = buffer.toString();
-        System.out.print(toPrint);
+        buffer.append(BOARD_SEPARATOR);
+        buffer.append(NEW_LINE);
+        buffer.append(NEW_LINE);
+        String boardStr = buffer.toString();
+        return boardStr;
     }
 
-    private static void printPositionValue(GameBoard board, StringBuffer buffer, GameBoardPosition currentPos) {
+    private static void generatePositionValueDisplay(GameBoard board, StringBuffer buffer, GameBoardPosition currentPos) {
         int n = board.getPositionValue(currentPos);
         String s;
         if (n > 0) {
             s = Integer.toString(n);
             if (Integer.toString(n).length() == 1) {
-                s += " ";
+                s += ONE_SPACE;
             }
         } else {
-            s = "  ";
+            s = TWO_SPACE;
         }
-        buffer.append(s + "| ");
+        buffer.append(s + BOARD_POSITION_SEPARATOR + ONE_SPACE);
     }
-
-
 }

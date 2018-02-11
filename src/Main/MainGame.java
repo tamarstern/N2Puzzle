@@ -35,7 +35,8 @@ public class MainGame {
         } else {
             System.out.println("You reached an unsolvable state. Game Over!");
         }
-        GameBoardViewer.showBoard(board);
+        String boardStr = GameBoardViewer.generateBoardDisplay(board);
+        System.out.println(boardStr);
 
     }
 
@@ -64,10 +65,12 @@ public class MainGame {
     }
 
     private static void executeNextMove(Scanner scanner, GameBoard board) {
-        GameBoardViewer.showBoard(board);
+        String boardStr = GameBoardViewer.generateBoardDisplay(board);
+        System.out.println(boardStr);
         List<GameBoardPosition> validMoves = board.getAllValidMoves();
         System.out.println("Current Valid Moves:");
-        GameBoardViewer.showMoves(board, validMoves);
+        String movesDisplay = GameBoardViewer.generateMovesDisplay(board, validMoves);
+        System.out.println(movesDisplay);
 
         int nextMove = getNextMove(scanner);
         GameBoardPosition nextMovePos = null;

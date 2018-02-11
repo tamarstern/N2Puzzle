@@ -47,7 +47,7 @@ public class TestGameBoardSolver {
 
 
     @Test
-    public void heuristicCost1OnSolvedBoardWith1Move() {
+    public void heuristicCost1OnSolvedBoardAfter1Move() {
         GameBoard board = new GameBoard(4);
         boolean solved = GameBoardSolver.isSolved(board);
         assert solved;

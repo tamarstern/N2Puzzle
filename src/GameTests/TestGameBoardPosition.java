@@ -1,6 +1,7 @@
 package GameTests;
 
-import Model.GameBoard;
+import Exceptions.IllegalXIndexValue;
+import Exceptions.IllegalYIndexValue;
 import Model.GameBoardPosition;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,6 @@ public class TestGameBoardPosition {
         GameBoardPosition boardPosition = new GameBoardPosition(xIndex, yIndex);
         assert boardPosition.getXIndex() == xIndex;
         assert boardPosition.getYIndex() == yIndex;
-
     }
 
 
@@ -21,14 +21,10 @@ public class TestGameBoardPosition {
     public void shouldThrowExceptionOnNegativeValueOnX() {
         int xIndex = -2;
         int yIndex = 3;
-        assertExceptionOnConstructorExecution(xIndex, yIndex);
-    }
-
-    private void assertExceptionOnConstructorExecution(int xIndex, int yIndex) {
         boolean thrown = false;
         try {
             new GameBoardPosition(xIndex, yIndex);
-        } catch (RuntimeException e) {
+        } catch (IllegalXIndexValue e) {
             thrown = true;
         }
         assert thrown;
@@ -38,7 +34,13 @@ public class TestGameBoardPosition {
     public void shouldThrowExceptionOnNegativeValueOnY() {
         int xIndex = 2;
         int yIndex = -3;
-        assertExceptionOnConstructorExecution(xIndex, yIndex);
+        boolean thrown = false;
+        try {
+            new GameBoardPosition(xIndex, yIndex);
+        } catch (IllegalYIndexValue e) {
+            thrown = true;
+        }
+        assert thrown;
     }
 
     @Test
